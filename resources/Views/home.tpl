@@ -56,9 +56,13 @@
 			<div class="col-sm-6">
 				<div class="card">
 					<div class="card-body">
-						<h5 class="card-title">Special title treatment</h5>
-						<p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-						<a href="#" class="btn btn-primary">Go somewhere</a>
+						<h5 class="card-title">Education</h5>
+						<p class="card-text">Not only is Majengo Secondary School a great school for your children, but
+							it also boasts a variety of well-trained and gifted staffs who are more than likely to
+							ensure your children get the best education provided. A library abundant with a large
+							assortment of books is also there to help ensure we provide the best education for the future
+							generation.</p>
+						<a href="/staffs" class="btn btn-primary">See more ...</a>
 					</div>
 				</div>
 			</div>
