@@ -20,6 +20,8 @@ return static function (Router $router, SessionInterface $session) {
     $router->get('/', 'PagesController@index');
     $router->get('/about', 'PagesController@about');
     $router->get('/alumni', 'PagesController@alumni');
+    $router->get('/staffs', 'PagesController@staffs');
+    $router->get('/contacts', 'PagesController@contacts');
 
     $router->get('/alumni/register', 'PagesController@registerAlumnus');
     $router->post('/alumni/register', 'AlumniController@store');

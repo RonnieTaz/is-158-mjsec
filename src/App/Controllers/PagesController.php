@@ -56,4 +56,14 @@ class PagesController
             'enrollmentYears' => get_years_range(20)
         ])))->send();
     }
+
+    public static function staffs(): Response
+    {
+        return (new Response(view('staffs.tpl')))->send();
+    }
+
+    public static function contacts(): Response
+    {
+        return (new Response(view('contacts.tpl')))->send();
+    }
 }
