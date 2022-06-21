@@ -3,6 +3,7 @@
     "description": "Website for Majengo Secondary School as per IS 181 Assignment",
     "type": "project",
     "require": {
+        "php": "^8.1",
         "smarty/smarty": "^4.1",
         "bramus/router": "^1.6",
         "lulco/phoenix": "^2.2",
