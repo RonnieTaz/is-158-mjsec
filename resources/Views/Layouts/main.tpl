@@ -23,18 +23,18 @@
 		</a>
 
 		<ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-			<li><a href="/" class="nav-link px-2 link-secondary">Home</a></li>
-			<li><a href="/about" class="nav-link px-2 link-dark">About</a></li>
-			<li><a href="/staffs" class="nav-link px-2 link-dark">Staff</a></li>
-			<li><a href="/contacts" class="nav-link px-2 link-dark">Contacts</a></li>
+			<li><a href="/" class="nav-link px-2 link-dark" id="home_nav">Home</a></li>
+			<li><a href="/about" class="nav-link px-2 link-dark" id="about_nav">About</a></li>
+			<li><a href="/staffs" class="nav-link px-2 link-dark" id="staffs_nav">Staff</a></li>
+			<li><a href="/contacts" class="nav-link px-2 link-dark" id="contacts_nav">Contacts</a></li>
             {auth id=$id}
-				<li><a href="/alumni" class="nav-link px-2 link-dark">Alumni</a></li>
+				<li><a href="/alumni" class="nav-link px-2 link-dark" id="alumni_nav">Alumni</a></li>
             {/auth}
 		</ul>
 
 		<div class="col-md-3 text-end align-items-center">
             {if {authenticate id=$id}}
-				<span class="d-inline-block mx-1 text-truncate" style="max-width: 150px">Welcome {$name}</span>
+				<span class="d-inline-block mx-1 text-truncate" style="max-width: 150px">{$name}</span>
             {/if}
             {if !{authenticate id=$id}}
 				<a href="/login" class="btn btn-outline-primary me-2">Login</a>
@@ -47,9 +47,19 @@
 		</div>
 	</div>
 </header>
-{block name="content"}
-	Empty Content
-{/block}
+<main class="container">
+    {foreach $flashes as $type=>$flash}
+        {foreach $flash as $message}
+			<div class="alert alert-{$type} alert-dismissible fade show" role="alert">
+				{$message}
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+        {/foreach}
+    {/foreach}
+    {block name="content"}
+		Empty Content
+    {/block}
+</main>
 <footer class="container mt-auto">
 	<div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
 		<div class="col-md-4 d-flex align-items-center">
@@ -82,5 +92,34 @@
 		integrity="sha512-6PM0qYu5KExuNcKt5bURAoT6KCThUmHRewN3zUFNaoI6Di7XJPTMoT6K0nsagZKk2OB4L7E3q1uQKHNHd4stIQ=="
 		crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 {block "extraScripts"}{/block}
+{literal}
+	<script type="text/javascript">
+        if (window.location.pathname === '/') {
+            const nav = document.getElementById("home_nav")
+			nav.classList.remove('link-dark')
+			nav.classList.add('link-secondary')
+        }
+        if (window.location.pathname === '/about') {
+            const nav = document.getElementById("about_nav")
+            nav.classList.remove('link-dark')
+            nav.classList.add('link-secondary')
+        }
+        if (window.location.pathname === '/staffs') {
+            const nav = document.getElementById("staffs_nav")
+            nav.classList.remove('link-dark')
+            nav.classList.add('link-secondary')
+        }
+        if (window.location.pathname === '/contacts') {
+            const nav = document.getElementById("contacts_nav")
+            nav.classList.remove('link-dark')
+            nav.classList.add('link-secondary')
+        }
+        if (window.location.pathname === '/alumni') {
+            const nav = document.getElementById("alumni_nav")
+            nav.classList.remove('link-dark')
+            nav.classList.add('link-secondary')
+        }
+	</script>
+{/literal}
 </body>
 </html>

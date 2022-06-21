@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Models\Alumnus;
+use Faker\Factory;
 use Symfony\Component\HttpFoundation\Response;
 
 class PagesController
@@ -29,7 +30,12 @@ class PagesController
 
     public static function about(): Response
     {
-        return (new Response(view('about.tpl')))->send();
+        $faker = Factory::create();
+        return (new Response(view('about.tpl', [
+            'history' => $faker->sentences(12, true),
+            'vision' => $faker->sentence(16),
+            'mission' => $faker->sentence(22)
+        ])))->send();
     }
 
     public static function login(): Response
@@ -59,7 +65,20 @@ class PagesController
 
     public static function staffs(): Response
     {
-        return (new Response(view('staffs.tpl')))->send();
+        $faker = Factory::create();
+
+        $staffs = [];
+        for ($i = 0; $i < 7; $i++) {
+            $data = [
+                'name' => $faker->name(),
+                'content' => $faker->sentences(3, true),
+                'subjects' => $faker->words(rand(1, 5)),
+                'email' => $faker->email(),
+                'phone' => $faker->e164PhoneNumber()
+            ];
+            $staffs[] = $data;
+        }
+        return (new Response(view('staffs.tpl', ['staffs' => $staffs])))->send();
     }
 
     public static function contacts(): Response

@@ -29,6 +29,7 @@ class View
 
         $this->engine->assign('id', session()->get('user_id'));
         $this->engine->assign('name', session()->get('user_name'));
+        $this->engine->assign('flashes', session()->getFlashBag()->all());
 
         try {
             return $this->engine->fetch($template);

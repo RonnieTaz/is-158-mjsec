@@ -13,7 +13,15 @@ return static function (Router $router, SessionInterface $session) {
 
     $router->before('GET|POST|PUT|PATCH|DELETE', '/logout', function () use ($router, $session) {
         if (!$session->has('user_id') || is_null($session->get('user_id'))) {
-            $router->trigger404();
+            session()->getFlashBag()->add('warning', 'Who are you? <a href=\'/login\'>Login</a>');
+            return (new RedirectResponse('/'))->send();
+        }
+    });
+
+    $router->before('GET|POST|PUT|PATCH|DELETE', '/register', function () use ($router, $session) {
+        if ($session->has('user_id') || !is_null($session->get('user_id'))) {
+            session()->getFlashBag()->add('warning', 'Logout first before registering.');
+            return (new RedirectResponse('/'))->send();
         }
     });
 

@@ -5,15 +5,13 @@ namespace App\Http\Controllers;
 use App\Core\FileUploader;
 use App\Http\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Valitron\Validator;
 
 class AuthController
 {
-    public static function login(): RedirectResponse|JsonResponse|Response
+    public static function login(): RedirectResponse
     {
         $request = Request::createFromGlobals();
 
@@ -25,7 +23,10 @@ class AuthController
         ]);
 
         if (!$validator->validate()) {
-            return (new JsonResponse($validator->errors()))->send();
+            foreach ($validator->errors() as $error) {
+                session()->getFlashBag()->add('warning', $error);
+            }
+            return (new RedirectResponse('/login'))->send();
         }
 
         try {
@@ -35,18 +36,20 @@ class AuthController
             $user = User::where('username', $request->request->get('username'))->firstOrFail();
 
             if (!password_verify($request->request->get('password'), $user->password)) {
-                return (new Response('Invalid Password', 403))->send();
+                session()->getFlashBag()->add('danger', 'Invalid Password');
+                return (new RedirectResponse('/login'))->send();
             }
 
             session()->set('user_id', $user->id);
             session()->set('user_name', $user->full_name);
             return (new RedirectResponse('/alumni'))->send();
         } catch (ModelNotFoundException) {
-            return (new Response('Invalid Username', 404))->send();
+            session()->getFlashBag()->add('danger', 'Invalid Username');
+            return (new RedirectResponse('/login'))->send();
         }
     }
 
-    public static function register(): RedirectResponse|JsonResponse|Response
+    public static function register(): RedirectResponse
     {
         $request = Request::createFromGlobals();
 
@@ -60,6 +63,9 @@ class AuthController
             ],
             'dateBefore' => [
                 ['dob', date('d-m-Y')]
+            ],
+            'email' => [
+                ['email']
             ]
         ]);
         $validator->labels([
@@ -67,11 +73,15 @@ class AuthController
         ]);
 
         if (!$validator->validate()) {
-            return (new JsonResponse($validator->errors()))->send();
+            foreach ($validator->errors() as $error) {
+                session()->getFlashBag()->add('danger', $error);
+            }
+            return (new RedirectResponse('/register'))->send();
         }
 
         if (!$request->files->has('cv') || $request->files->get('cv') === null) {
-            return (new Response('Make sure the file is selected before uploading.'))->send();
+            session()->getFlashBag()->add('warning', 'Make sure the file is selected before uploading.');
+            return (new RedirectResponse('/register'))->send();
         }
 
         $contacts = [
@@ -101,7 +111,8 @@ class AuthController
                 'contacts' => $contacts
             ]);
         } catch (\Exception $e) {
-            return (new Response("Failed to create user: {$e->getMessage()}"))->send();
+            session()->getFlashBag()->add('danger', "Failed to create user: {$e->getMessage()}");
+            return (new RedirectResponse('/register'))->send();
         }
 
         return (new RedirectResponse('/login'))->send();
@@ -110,6 +121,7 @@ class AuthController
     public static function logout(): RedirectResponse
     {
         session()->clear();
+        session()->getFlashBag()->add('info', 'You have been logged out.');
         return (new RedirectResponse('/'))->send();
     }
 }

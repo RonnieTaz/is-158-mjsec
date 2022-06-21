@@ -6,12 +6,11 @@ use App\Enum\Results;
 use App\Http\Models\Alumnus;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Valitron\Validator;
 
 class AlumniController
 {
-    public function store()
+    public function store(): RedirectResponse
     {
         $request = Request::createFromGlobals();
         $results = [];
@@ -38,8 +37,10 @@ class AlumniController
         ]);
 
         if (!$validator->validate()) {
-            dump($validator->errors());
-//            return (new RedirectResponse('/alumni/register'))->send();
+            foreach ($validator->errors() as $error) {
+                session()->getFlashBag()->add('warning', $error);
+            }
+            return (new RedirectResponse('/alumni/register'))->send();
         }
 
         $enum = match ($request->request->get('results')) {
@@ -66,7 +67,8 @@ class AlumniController
 
             return (new RedirectResponse('/alumni'))->send();
         } catch (\Exception $e) {
-            return (new Response("Failed to create Alumnus: {$e->getMessage()}"));
+            session()->getFlashBag()->add('danger', "Failed to create Alumnus: {$e->getMessage()}");
+            return (new RedirectResponse('/alumni/register'))->send();
         }
     }
 }

@@ -48,7 +48,14 @@
 			<form method="post">
 				<p class="fs-4 fw-bold text-uppercase">Majengo Secondary School</p>
 				<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-
+                {foreach $flashes as $type=>$flash}
+                    {foreach $flash as $message}
+						<div class="alert alert-{$type} alert-dismissible fade show" role="alert">
+                            {$message}
+							<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+						</div>
+                    {/foreach}
+                {/foreach}
 				<div class="form-floating">
 					<input type="text" class="form-control" id="floatingInputUsername" name="username" placeholder="name@example.com">
 					<label for="floatingInputUsername">Username</label>

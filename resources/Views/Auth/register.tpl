@@ -30,6 +30,14 @@
 					<div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
 						<div class="card-body p-4 p-md-5">
 							<h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registration Form</h3>
+                            {foreach $flashes as $type=>$flash}
+                                {foreach $flash as $message}
+									<div class="alert alert-{$type} alert-dismissible fade show" role="alert">
+                                        {$message}
+										<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+									</div>
+                                {/foreach}
+                            {/foreach}
 							<form method="post" id="registrationForm" enctype="multipart/form-data">
 								<div class="row">
 									<div class="col-md-6 mb-4">
@@ -147,7 +155,7 @@
 												<span class="input-group-text">
 													<i class="fa-solid fa-lock"></i>
 												</span>
-												<input type="text" id="password" class="form-control"
+												<input type="password" id="password" class="form-control"
 													   placeholder="Password" name="password" required/>
 											</div>
 											<label class="form-label d-none" for="password">Password</label>
