@@ -9,8 +9,31 @@ Majengo Secondary School website as per IS 158 assignment requirements
 
 Add badges from somewhere like: [shields.io](https://shields.io/)
 
-[![MIT License](https://img.shields.io/apm/l/atomic-design-ui.svg?)](https://github.com/RonnieTaz/is-158-mjsec/blob/main/LICENSE)
+![GitHub](https://img.shields.io/github/license/RonnieTaz/is-158-mjsec)
 ![Packagist PHP Version Support](https://img.shields.io/packagist/php-v/RonnieTaz/is-158-mjsec)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/RonnieTaz/is-158-mjsec)
+## Acknowledgements
+
+ - [Smarty Templates](https://www.smarty.net/)
+ - [Symfony Components](https://symfony.com/components)
+ - [Phoenix](https://github.com/lulco/phoenix)
+
+
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`DATABASE_DRIVER`
+
+`DB_HOST`
+
+`DB_USER`
+
+`DB_PASS`
+
+`DB_NAME`
+
+
 ## Run Locally
 
 Clone the project
