@@ -40,6 +40,7 @@ Clone the project
 
 ```bash
   git clone https://github.com/RonnieTaz/is-158-mjsec.git
+  cd is-158-mjsec
 ```
 
 Create database with name `mjsec`
